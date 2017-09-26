@@ -1,0 +1,16 @@
+name: scopify
+version: 0.1.0
+description: A library for compiling scoped styles
+author: Ryan Gonzalez <rymg19@gmail.com>
+homepage: https://github.com/kirbyfan64/scopify
+environment:
+  sdk: ">=1.8.0 <2.0.0"
+dependencies:
+  convert: ^2.0.0 # work around some breakingdependency issues with uuid
+  csslib: ^0.14.1
+  html: ^0.13.2
+  meta: ^1.1.1
+  source_span: ^1.4.0
+  uuid: ^0.5.0
+dev_dependencies:
+  test: any
