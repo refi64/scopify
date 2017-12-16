@@ -25,9 +25,9 @@ String roundTripHtml(String uuid, String htmlText) {
 }
 
 
-String roundTripCss(String uuid, String cssText) {
+String roundTripCss(String uuid, String cssText, {bool bleeds}) {
   var style = css.parse(cssText);
-  scopify(html: [], css: [style], uuid: uuid);
+  scopify(html: [], css: [style], uuid: uuid, bleeds: bleeds);
   return cssString(style);
 }
 
@@ -37,13 +37,13 @@ void testHtml(String uuid, String orig, String next) {
 }
 
 
-void testCss(String uuid, String orig, String next) {
-  expect(roundTripCss(uuid, orig), equals(cssString(css.parse(next))));
+void testCss(String uuid, String orig, String next, {bool bleeds}) {
+  expect(roundTripCss(uuid, orig, bleeds: bleeds), equals(cssString(css.parse(next))));
 }
 
 
 String genId() => new Uuid().v4();
-String genAttr(String uuid) => 'scoped-data-$uuid';
+String genAttr(String uuid) => 'scopify-data-$uuid';
 
 
 void main() {
@@ -52,14 +52,16 @@ void main() {
     var attr = genAttr(uuid);
 
     testHtml(uuid, '<p test>abc<a>x</a></p>',
-                   '<p test $attr>abc<a $attr>x</a></p>');
+                   '<p test $attr scopify-data>abc<a $attr scopify-data>x</a></p>');
   });
 
   test('converts the CSS to use the proper UUIDs', () {
     var uuid = genId();
     var attr = genAttr(uuid);
 
+    testCss(uuid, 'a, .b:not(#c) > d','a[$attr], .b:not(#c)[$attr] > d', bleeds: false);
     testCss(uuid, 'a, .b:not(#c) > d',
-                  'a[$attr], .b:not(#c)[$attr] > d, [$attr] a, [$attr] .b:not(#c) > d');
+                  'a[$attr], .b:not(#c)[$attr] > d, [$attr] a:not([scopify-data]),'
+                  ' [$attr] .b:not(#c) > d:not([scopify-data])', bleeds: true);
   });
 }
