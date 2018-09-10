@@ -1,10 +1,10 @@
 name: scopify
-version: 0.2.1
+version: 0.2.2
 description: A library for compiling scoped styles
 author: Ryan Gonzalez <rymg19@gmail.com>
 homepage: https://github.com/kirbyfan64/scopify
 environment:
-  sdk: ">=1.8.0 <2.0.0"
+  sdk: ">=2.0.0 <3.0.0"
 dependencies:
   csslib: ^0.14.4
   html: ^0.13.3
